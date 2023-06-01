@@ -18,4 +18,9 @@ class AuthorService {
         return ConsumesExternalServices::performRequest('POST','authors',$baseUrl, $data);
     }
 
+    public static function obtainAuthor($author){
+        $baseUrl = config('services.authors.base_uri');
+        return ConsumesExternalServices::performRequest('GET',"/authors/{$author}",$baseUrl);
+    } 
+
 }

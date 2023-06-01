@@ -29,8 +29,8 @@ class AuthorController extends Controller
 
     }
 
-    public function show( $id ){
-        
+    public function show( $author ){
+        return $this->successResponse( AuthorService::obtainAuthor( $author ) );
     }
 
     public function update(Request $request, $id){
