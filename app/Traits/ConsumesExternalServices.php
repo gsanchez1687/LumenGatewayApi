@@ -2,13 +2,12 @@
 namespace App\Traits;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7;
 
 trait ConsumesExternalServices{
 
-    public static function performRequest($method, $requestUrl, $formParams = [], $headers = []){
+    public static function performRequest($method, $requestUrl, $baseUrl, $formParams = [], $headers = []){
         $client = new Client([
-            'base_uri' => env('AUTHOR_SERVICE_BASE_URL'),
+            'base_uri' => $baseUrl
         ]);
         $response = $client->request($method,$requestUrl,[
             'form_params'=>$formParams,

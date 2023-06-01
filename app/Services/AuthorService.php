@@ -7,18 +7,15 @@ use App\Traits\ConsumesExternalServices;
 class AuthorService {
 
     use ConsumesExternalServices;
-    public $baseUri;
-
-    public function __constructor(){
-
-        $this->baseUri = env('AUTHOR_SERVICE_BASE_URL');
-
-    }
 
     public static function obtainAuthors(){
-        
-        return ConsumesExternalServices::performRequest('GET','authors');
-      
+        $baseUrl = config('services.authors.base_uri');
+        return ConsumesExternalServices::performRequest('GET','authors',$baseUrl);
+    }
+
+    public static function createAuthors($data){
+        $baseUrl = config('services.authors.base_uri');
+        return ConsumesExternalServices::performRequest('POST','authors',$baseUrl, $data);
     }
 
 }

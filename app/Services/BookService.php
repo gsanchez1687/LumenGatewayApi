@@ -8,9 +8,8 @@ class BookService{
 
     use ConsumesExternalServices;
 
-    public $baseUri;
-
-    public function __constructor(){
-        $this->baseUri = config('services.books.base_uri');
+    public static function obtainAuthors(){
+        $baseUrl = config('services.books.base_uri');
+        return ConsumesExternalServices::performRequest('GET','authors',$baseUrl);
     }
 }
