@@ -3,12 +3,13 @@
 namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -70,6 +71,12 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ValidationException) {
             $errors = $exception->validator->errors()->getMessages();
             return $this->errorResponse($errors,Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if($exception instanceof ClientException){
+            $message = $exception->getResponse()->getBody();
+            $code = $exception->getCode();
+            return $this->errorMessage($message,$code);
         }
 
         if( env('APP_DEBUG',false) ){

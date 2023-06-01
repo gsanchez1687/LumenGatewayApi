@@ -15,29 +15,27 @@ class AuthorController extends Controller
 
     public function __construct( AuthorService $authorService  )
     {
-        
+        $this->authorService = $authorService;
     }
 
     public function index(){
       
-        return $this->successResponse( AuthorService::obtainAuthors() );
+        return $this->successResponse( AuthorService::listAuthors() );
     }
 
     public function store( Request $request ){
-
-        return $this->successResponse( AuthorService::createAuthors( $request->all() ), Response::HTTP_CREATED );
-
+        return $this->successResponse( AuthorService::storeAuthors( $request->all() ), Response::HTTP_CREATED );
     }
 
     public function show( $author ){
-        return $this->successResponse( AuthorService::obtainAuthor( $author ) );
+        return $this->successResponse( AuthorService::showAuthor( $author ) );
     }
 
-    public function update(Request $request, $id){
-        
+    public function update(Request $request, $author){
+        return $this->successResponse( AuthorService::updateAuthor( $request->all(), $author ) );
     }
 
-    public function destroy($id){
-        
+    public function destroy($author){
+        return $this->successResponse( AuthorService::deleteAuthor( $author ) );
     }
 }
